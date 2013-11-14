@@ -1,0 +1,52 @@
+db.MappingMetadata.insert({
+    "collections_from": [
+    {
+        "collection_name":"trusts",
+        "field_name":"name"
+    },
+    {
+        "collection_name":"wards",
+        "field_name":"code"
+    },
+    {
+        "collection_name":"grade",
+        "field_name":"code"
+    }
+    ],
+    "collection_to":{
+      "collection_name":"assignments",
+      "field_name":"name"
+    }
+ }
+ )
+ 
+  db.Integrations.insert({
+    "name":"HR-BS",
+    "applications":[
+          {
+            "name" : "HealthRoster",
+            "collections": [
+              {
+                  "collection_name":"trusts",
+              },
+              {
+                  "collection_name":"wards",
+              },
+              {
+                  "collection_name":"grades",
+              }
+              ]
+          },
+          {
+            "name" : "BankStaff",
+            "collections": [
+              {
+                  "collection_name":"assignments",
+              }
+              ]
+          }
+    ]
+
+ }
+ )
+ 
