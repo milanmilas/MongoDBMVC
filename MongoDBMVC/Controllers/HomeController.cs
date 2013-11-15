@@ -1,10 +1,13 @@
 ﻿using MongoDBInfrastructure;
+using MongoDBMVC.Logic.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Mongo = MongoDB.Driver.Builders;
+using MongoDB.Bson;
+using MongoDB.Bson.IO;
 
 namespace MongoDBMVC.Controllers
 {
@@ -17,7 +20,7 @@ namespace MongoDBMVC.Controllers
 
         public ActionResult About()
         {
-            var result = new Repository().Query(new Query() { CollectionName = "places", MongoQuery = Mongo.Query.Null });
+            var result = new Repository().Query(new AllPlaces());
             ViewBag.Columns = result.First().Names;
             ViewBag.Documents = result;
             ViewBag.Message = "Your application description page.";
@@ -28,6 +31,18 @@ namespace MongoDBMVC.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult Integration()
+        {
+            var settings = new JsonWriterSettings
+            {
+                OutputMode = JsonOutputMode.Strict
+            };
+
+            ViewBag.Interfaces = new Repository().Query(new AllPIntegrations()).ToJson(settings);
 
             return View();
         }

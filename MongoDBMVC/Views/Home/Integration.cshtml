@@ -1,0 +1,178 @@
+﻿
+
+<div id="example" >
+    <div id="clientsDb">
+        <div id="grid" ></div>
+    </div>
+
+    <div id="grid2"></div>
+
+        <div id="referencedata1"></div>
+
+
+
+    <div id="referencedata2"></div>
+
+
+   <style scoped>
+        #clientsDb {
+            width: 692px;
+            height: 413px;
+            margin: 30px auto;
+            padding: 51px 4px 0 4px;
+            background: url('../../content/web/grid/clientsDb.png') no-repeat 0 0;
+        }
+    </style>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        function onChange(arg) {
+            var selected = $.map(this.select(), function(item) {
+                return $(item).text();
+            });
+
+            alert("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]");
+        }
+
+
+    $(document).ready(function () {
+        //alert("initial call")
+
+        var movies = [{
+            "title": "Star Wars: A New Hope",
+            "year": 1977
+        }, {
+            "title": "Star Wars: The Empire Strikes Back",
+            "year": 1980
+        }, {
+            "title": "Star Wars: Return of the Jedi",
+            "year": 1983
+        }
+        ];
+
+        var localDataSource = new kendo.data.DataSource({ data: movies });
+
+        var viewModel = kendo.observable({
+            productsSource: new kendo.data.DataSource({
+                data: @Html.Raw(@ViewBag.Interfaces),
+                batch: true,
+                schema: {
+                    model: {
+                        id: "_id"
+                    }
+                }
+            }),
+            selectedProduct: null
+        });
+
+        kendo.bind($("#example"), viewModel);
+
+        $("#grid").kendoGrid({
+            dataSource: {
+                data: @Html.Raw(@ViewBag.Interfaces),
+                pageSize: 10
+            },
+            selectable: "single",
+            groupable: false,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true
+            },
+            columns: [{
+                field: "name",
+                width: 40,
+                title: "name"
+            },
+                      {
+                          field: "applications[0].name",
+                          width: 40,
+                          title: "Application"
+                      },
+                      {
+                          field: "applications[1].name",
+                          width: 40,
+                          title: "Application"
+                      },
+
+            ]
+        });
+
+        $("#grid2").kendoGrid({
+            
+            dataSource: {
+                data: @Html.Raw(@ViewBag.Interfaces),
+                pageSize: 10
+            },
+            change: onChange,
+            selectable: "single",
+            groupable: false,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true
+            },
+            columns: [{
+                field: "name",
+                width: 40,
+                title: "name"
+            },
+                      {
+                          field: "applications[0].name",
+                          width: 40,
+                          title: "Application"
+                      },
+                      {
+                          field: "applications[1].name",
+                          width: 40,
+                          title: "Application"
+                      },
+
+            ]
+        });
+
+        $("#referencedata1").kendoGrid({
+            dataSource: {
+                data: [
+                {
+                    "collection_name" : "trusts",
+                    "refDataURL" : ""
+                },
+                {
+                    "collection_name" : "wards",
+                    "refDataURL" : ""
+                },
+                {
+                    "collection_name" : "grades",
+                    "refDataURL" : ""
+                }
+            ],
+                pageSize: 10
+            },
+            selectable: "single",
+            groupable: false,
+            sortable: true,
+            pageable: {
+                refresh: true,
+                pageSizes: true
+            },
+            columns: [
+                      {
+                          field: "collection_name",
+                          width: 40,
+                          title: "collection_name"
+                      },
+                      {
+                          field: "refDataURL",
+                          width: 40,
+                          title: "refDataURL"
+                      },
+
+            ]
+        });
+
+    });
+    </script>
+}
