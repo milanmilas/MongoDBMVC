@@ -25,3 +25,71 @@
 </table> 
 
 <p>Use this area to provide additional information.</p>
+
+<div id="content">
+    <div>
+        <div id="grid"  data-role="grid" data-bind=" source: ordersSource, events: { change: change }"
+             data-selectable="True" data-columns='["OrderID", "ShipName", "ShipCity.name"]' />
+    </div>
+
+
+
+    <div style="margin: 10px">
+        <h2>Edit client</h2>
+        <label>Order id</label>
+        <input type="text" readonly="true" data-bind="value: selectedRow.OrderID" />
+        <br />
+        <label>Ship Name</label>
+        <input type="text" data-bind="value: selectedRow.ShipName" />
+        <br />
+        <label>Ship City</label>
+        <input type="text" data-bind="value: selectedRow.ShipCity.name" />
+    </div>
+
+    <div>
+        <div id="grid2" data-role="grid" data-bind="source: selectedRow.ShipCity.collections, events: { change: change2 }"
+             data-selectable="True" data-columns='["collection_name", "refDataURL"]' />
+    </div>
+
+    <div style="margin: 10px">
+        <h2>Edit client 2</h2>
+
+        <label>collection_name</label>
+        <input type="text" data-bind="value: selectedRow2.collection_name" />
+        <label>refDataURL</label>
+        <input type="text" data-bind="value: selectedRow2.refDataURL" />
+
+
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+
+
+        var ordersDatasource = [
+    {
+        OrderID: 1, ShipName: "Ship A o", ShipCity: "HealthRoster"
+    },
+    {
+        OrderID: 2, ShipName: "Ship A oo ", ShipCity: "RealTime"
+    }
+        ];
+
+
+
+        var viewModel = {
+            ordersSource: ordersDatasource,
+            selectedRow: ko.observable(null),
+
+            change: function (eventArgs) {
+                this.set("selectedRow", eventArgs.sender.dataItem(eventArgs.sender.select()));
+            }
+        };
+
+        ko.applyBindings(myViewModel);
+
+
+    </script>
+}

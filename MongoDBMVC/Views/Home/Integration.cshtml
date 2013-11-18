@@ -30,6 +30,8 @@
 
         function onChange(arg) {
             var selected = $.map(this.select(), function(item) {
+                var entityGrid = $("#grid").data("kendoGrid");
+                var selectedItem = entityGrid.dataItem(entityGrid.select());
                 return $(item).text();
             });
 
